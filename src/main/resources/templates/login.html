@@ -72,11 +72,11 @@
         g_showLoading();
 
         var inputPass = $("#password").val();
-        var str = "" + inputPass + g_password_salt;
+        var str = inputPass + g_password_salt;
         var password = md5(str);
 
         $.ajax({
-            url: "/login/doLogin",
+            url: CONTEXT_PATH + "/login/doLogin",
             type: "POST",
             data: {
                 mobile: $("#mobile").val(),
@@ -88,7 +88,7 @@
                     layer.msg("成功");
                     console.log(data);
                     document.cookie = "userTicket=" + data.object;
-                    window.location.href = "/goods/toList";
+                    window.location.href = CONTEXT_PATH + "/goods/toList";
                 } else {
                     layer.msg(data.message);
                 }

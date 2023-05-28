@@ -23,4 +23,9 @@ public class Md5Util {
     public static String inputPassToDBPass(String inputPass, String salt) {
         return formPassToDBPass(inputPassToFormPass(inputPass), salt);
     }
+
+    public static void main(String[] args) {
+        System.out.println(Md5Util.formPassToDBPass(Md5Util.inputPassToFormPass("123456"), salt));
+        System.out.println(Md5Util.inputPassToDBPass("123456", salt));
+    }
 }

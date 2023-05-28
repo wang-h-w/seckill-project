@@ -23,6 +23,19 @@ spring:
       connection-timeout: 30000
       auto-commit: true
       connection-test-query: SELECT 1
+  # RedisProperties
+  redis:
+    host: 10.211.55.4
+    port: 6379
+    password: 999
+    database: 12
+    timeout: 10000ms
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: 10000ms
+        max-idle: 8
+        min-idle: 0
 
 # MyBatisPlusProperties
 mybatis-plus:
