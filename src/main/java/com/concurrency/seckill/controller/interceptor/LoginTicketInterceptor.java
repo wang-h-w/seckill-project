@@ -3,6 +3,7 @@ package com.concurrency.seckill.controller.interceptor;
 import com.concurrency.seckill.entity.User;
 import com.concurrency.seckill.service.IUserService;
 import com.concurrency.seckill.utils.CookieUtil;
+import com.concurrency.seckill.utils.HostHolder;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,8 @@ public class LoginTicketInterceptor implements HandlerInterceptor {
 
     @Autowired
     private IUserService userService;
+    @Autowired
+    private HostHolder hostHolder;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -29,6 +32,7 @@ public class LoginTicketInterceptor implements HandlerInterceptor {
             response.sendRedirect(request.getContextPath() + "/login/toLogin");
             return false;
         }
+        hostHolder.setUser(user);
         return true;
     }
 }

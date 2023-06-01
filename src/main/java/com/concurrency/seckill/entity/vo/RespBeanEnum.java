@@ -19,7 +19,11 @@ public enum RespBeanEnum {
     // 登录模块
     BIND_ERROR(500210, "参数校验异常"),
     LOGIN_USER_WRONG(500211, "该手机号码未注册"),
-    LOGIN_PASSWORD_WRONG(500212, "密码错误");
+    LOGIN_PASSWORD_WRONG(500212, "密码错误"),
+
+    // 秒杀模块
+    EMPTY_STOCK(500500, "库存不足"),
+    REPEAT_ERROR(500501, "秒杀商品每位用户限购一件");
 
 
     private final Integer code;
