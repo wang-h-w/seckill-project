@@ -11,9 +11,9 @@ spring:
   # DataSourceProperties
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/seckill
-    username: root
-    password: root
+    url: jdbc:mysql://10.211.55.4:3306/seckill
+    username: remote
+    password: remote
     hikari:
       pool-name: DataHikariPool
       minimum-idle: 5

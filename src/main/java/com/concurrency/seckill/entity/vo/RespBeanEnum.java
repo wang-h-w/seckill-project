@@ -23,7 +23,10 @@ public enum RespBeanEnum {
 
     // 秒杀模块
     EMPTY_STOCK(500500, "库存不足"),
-    REPEAT_ERROR(500501, "秒杀商品每位用户限购一件");
+    REPEAT_ERROR(500501, "秒杀商品每位用户限购一件"),
+
+    // 订单模块
+    ORDER_NOT_EXIST(500300, "订单不存在");
 
 
     private final Integer code;
