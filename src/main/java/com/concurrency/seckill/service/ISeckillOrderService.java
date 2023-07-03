@@ -2,6 +2,7 @@ package com.concurrency.seckill.service;
 
 import com.concurrency.seckill.entity.SeckillOrder;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.concurrency.seckill.entity.User;
 
 /**
  * <p>
@@ -13,4 +14,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ISeckillOrderService extends IService<SeckillOrder> {
 
+    /**
+     * 查询秒杀结果
+     * @param user User
+     * @param goodsId Good's ID
+     * @return orderId-成功; -1-秒杀失败; 0-秒杀进行中
+     */
+    Long getResult(User user, Long goodsId);
 }

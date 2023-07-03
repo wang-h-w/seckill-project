@@ -49,10 +49,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Override
     public Order seckill(User user, GoodsDTO goods) {
         // 先减秒杀库存
-        SeckillGoods seckillGoods = seckillGoodsService.getOne(new QueryWrapper<SeckillGoods>().eq("goods_id", goods.getId()));
         boolean updateResult = seckillGoodsService.update(new UpdateWrapper<SeckillGoods>().setSql("stock_count = stock_count - 1")
-                .eq("goods_id", seckillGoods.getGoodsId()).gt("stock_count", 0));
+                .eq("goods_id", goods.getId()).gt("stock_count", 0));
         if (!updateResult) return null;
+        SeckillGoods seckillGoods = seckillGoodsService.getOne(new QueryWrapper<SeckillGoods>().eq("goods_id", goods.getId()));
+        // 这里用来判断秒杀商品是否已抢购完，之前的预减库存是为了挡住并发的请求，这里才是真正决定是否已售空
+        if (seckillGoods.getStockCount() <= 0) redisTemplate.opsForValue().set("isStockEmpty:" + goods.getId(), true);
         // 生成订单
         Order order = new Order();
         order.setUserId(user.getId());

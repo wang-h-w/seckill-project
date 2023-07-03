@@ -36,6 +36,27 @@ spring:
         max-wait: 10000ms
         max-idle: 8
         min-idle: 0
+  # RabbitMQProperties
+  rabbitmq:
+    host: 10.211.55.4
+    port: 5672
+    username: root
+    password: root
+    virtual-host: /
+    listener:
+      simple:
+        concurrency: 10 # 消费者的最少数量
+        max-concurrency: 10 # 消费者的最大数量
+        prefetch: 1 # 限制消费者每次只能处理一条消息
+        auto-startup: true # 默认启动容器
+        default-requeue-rejected: true # 拒绝策略：拒绝后重新进入队列
+    template:
+      retry:
+        enabled: true # 发布重试
+        initial-interval: 1000ms # 重试时间
+        max-attempts: 3 # 最大重试次数
+        max-interval: 10000ms # 最大重试时间间隔
+        multiplier: 1 # 重试间隔层数，如果配置为2，则第一次等10s、第二次等20s，以此类推
 
 # MyBatisPlusProperties
 mybatis-plus:
