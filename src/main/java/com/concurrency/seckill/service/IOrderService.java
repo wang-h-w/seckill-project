@@ -30,4 +30,30 @@ public interface IOrderService extends IService<Order> {
      * @return Order detail view object
      */
     OrderDetailVO getOrderDetail(Long orderId);
+
+    /**
+     * 业务：生成秒杀地址
+     * @param user User
+     * @param goodsId Good's id
+     * @return Seckill path
+     */
+    String createPath(User user, Long goodsId);
+
+    /**
+     * 业务：校验秒杀地址
+     * @param user User
+     * @param goodsId Good's id
+     * @param path Path
+     * @return Pass or not
+     */
+    boolean checkPath(User user, Long goodsId, String path);
+
+    /**
+     * 业务：校验验证码
+     * @param user User
+     * @param goodsId Good's id
+     * @param captcha User input captcha
+     * @return Pass or not
+     */
+    boolean checkCaptcha(User user, Long goodsId, String captcha);
 }

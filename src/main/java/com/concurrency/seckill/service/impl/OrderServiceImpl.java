@@ -16,12 +16,16 @@ import com.concurrency.seckill.service.IOrderService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.concurrency.seckill.service.ISeckillGoodsService;
 import com.concurrency.seckill.service.ISeckillOrderService;
+import com.concurrency.seckill.utils.Md5Util;
+import com.concurrency.seckill.utils.UUIDUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -86,5 +90,26 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         orderDetailVO.setOrder(order);
         orderDetailVO.setGoodsDTO(goodsService.findGoodsDTOByGoodsId(order.getGoodsId()));
         return orderDetailVO;
+    }
+
+    @Override
+    public String createPath(User user, Long goodsId) {
+        String uuid = Md5Util.md5(UUIDUtil.uuid() + "1a2b3c4d");
+        redisTemplate.opsForValue().set("seckillPath:" + user.getId() + ":" + goodsId, uuid, 60, TimeUnit.SECONDS);
+        return uuid;
+    }
+
+    @Override
+    public boolean checkPath(User user, Long goodsId, String path) {
+        if (user == null || goodsId < 0 || StringUtils.isEmpty(path)) return false;
+        String redisPath = (String) redisTemplate.opsForValue().get("seckillPath:" + user.getId() + ":" + goodsId);
+        return path.equals(redisPath);
+    }
+
+    @Override
+    public boolean checkCaptcha(User user, Long goodsId, String captcha) {
+        if (user == null || goodsId < 0 || StringUtils.isEmpty(captcha)) return false;
+        String trueCaptcha = (String) redisTemplate.opsForValue().get("captcha:" + user.getId() + ":" + goodsId);
+        return captcha.equals(trueCaptcha);
     }
 }
